@@ -1,0 +1,11 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "main.h"
+
+int main() {
+    char *myString = "Hello, world!";
+    char *length = str_dup(myString);
+    printf("The string: %s\n", length);
+    free(length);
+    return 0;
+}
