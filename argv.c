@@ -4,7 +4,7 @@
 #include <stdio.h>
 /**
  *_argv - creates an array of pointers
- *@line: string to be broken into pointers. 
+ *@line: string to be broken into pointers.
  *
  *Return: an array of pointers
  */

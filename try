@@ -2,6 +2,12 @@
 #include <stdlib.h>
 #include "main.h"
 
+/**
+ *main - main function used for testing
+ *
+ *Return: always 0.
+ */
+
 int main() {
     char *myString = "/bin/ls -l /tmp";
     char **argv;
@@ -10,7 +16,7 @@ int main() {
     int i = 0;
     dup = str_dup(myString);
     argv = _argv(dup);
-    while (argv[i] != NULL) 
+    while (argv[i] != NULL)
     {
 	    printf("argv[%d] = %s\n", i, argv[i]);
 	    i++;

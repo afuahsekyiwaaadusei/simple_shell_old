@@ -15,8 +15,7 @@
 
 int main(void)
 {
-	char *line = NULL, **argv, *dup_str;
-	char buf[] = "cisfun$ ";
+	char *line = NULL, **argv, *dup_str, buf[] = "cisfun$ ";
 	ssize_t nread, nwrite;
 	size_t n = 0;
 	pid_t pid;
