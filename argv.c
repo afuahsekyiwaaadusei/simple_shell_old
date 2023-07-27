@@ -16,6 +16,8 @@ char **_argv(char *line)
 	int count = 0;
 	char **argv;
 
+	if (line == NULL)
+		exit(-1);
 	arg_count = get_arg_no(line);
 	arg_count++;
 	argv = malloc(sizeof(char *) * arg_count);

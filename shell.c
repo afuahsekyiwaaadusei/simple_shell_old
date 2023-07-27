@@ -9,17 +9,22 @@
 /**
  *main - a program that prints "$ ",
  *wait for the user to enter a command, and executes it.
+ *@ac: count of program arguments.
+ *@av: array of program arguements.
+ *@env: program environment.
  *
  *Return: always 0.
  */
 
-int main(void)
+int main(int ac, char **av, char **env)
 {
 	char *line = NULL, **argv, *dup_str, buf[] = "cisfun$ ";
 	ssize_t nread, nwrite;
 	size_t n = 0;
 	pid_t pid;
 
+	if (ac > 1 && av[1] != NULL)
+		return (-1);
 	nwrite = write(STDOUT_FILENO, buf, sizeof(buf));
 	print_err(nwrite);
 	nread = getline(&line, &n, stdin);
@@ -35,10 +40,8 @@ int main(void)
 			nread = -1;
 			dup_str = str_dup(line);
 			argv = _argv(dup_str);
-			if ((execve(argv[0], argv, NULL)) == -1)
-			{
+			if ((execve(argv[0], argv, env)) == -1)
 				perror("./shell");
-			}
 		}
 		else
 		{

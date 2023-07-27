@@ -15,7 +15,7 @@ char *str_dup(char *str)
 	int i = 0;
 
 	if (str == NULL)
-		return (NULL);
+		exit(-1);
 	while (*cnt)
 	{
 		cnt++;
