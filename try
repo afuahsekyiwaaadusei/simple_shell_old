@@ -1,0 +1,20 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "main.h"
+
+int main() {
+    char *myString = "/bin/ls -l /tmp";
+    char **argv;
+    char **result;
+    char *dup;
+    int i = 0;
+    dup = str_dup(myString);
+    argv = _argv(dup);
+    while (argv[i] != NULL) 
+    {
+	    printf("argv[%d] = %s\n", i, argv[i]);
+	    i++;
+    }
+    free(argv);
+    return 0;
+}

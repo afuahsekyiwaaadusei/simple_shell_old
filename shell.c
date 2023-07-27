@@ -15,7 +15,7 @@
 
 int main(void)
 {
-	char *line = NULL, **argv;
+	char *line = NULL, **argv, *dup_str;
 	char buf[] = "cisfun$ ";
 	ssize_t nread, nwrite;
 	size_t n = 0;
@@ -34,7 +34,8 @@ int main(void)
 		if (pid == 0)
 		{
 			nread = -1;
-			argv = _argv(line);
+			dup_str = str_dup(line);
+			argv = _argv(dup_str);
 			if ((execve(argv[0], argv, NULL)) == -1)
 			{
 				perror("./shell");
@@ -53,5 +54,6 @@ int main(void)
 	}
 	free(line);
 	free(argv);
+	free(dup_str);
 	return (0);
 }
