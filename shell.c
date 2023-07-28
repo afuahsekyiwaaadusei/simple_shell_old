@@ -20,21 +20,26 @@ int main(int ac, char **av, char **env)
 {
 	char *line = NULL, **argv, *dup_str, buf[] = "cisfun$ ";
 	ssize_t nread, nwrite;
-	size_t n = 0;
-	pid_t pid;
+	size_t  n = 0;
+	pid_t pid = -1;
 
-	if (ac > 1 && av[1] != NULL)
-		return (-1);
-	nwrite = write(STDOUT_FILENO, buf, sizeof(buf));
-	print_err(nwrite);
-	nread = getline(&line, &n, stdin);
-	print_err(nread);
+	
+	(void)ac;
+	(void)av;
+	if ((isatty(STDIN_FILENO)) != 1)
+		nread = getline(&line, &n, stdin);
+	else
+	{
+		nwrite = write(STDOUT_FILENO, buf, sizeof(buf));
+		print_err(nwrite, "write");
+		nread = getline(&line, &n, stdin);
+	}
 	while (nread != -1)
 	{
 		if (line[nread - 1] == '\n')
 			line[nread - 1] = '\0';
 		pid = fork();
-		print_err(pid);
+		print_err(pid, "pid");
 		if (pid == 0)
 		{
 			nread = -1;
@@ -48,14 +53,38 @@ int main(int ac, char **av, char **env)
 			wait(NULL);
 			free(line);
 			line = NULL;
-			nwrite = write(STDOUT_FILENO, buf, sizeof(buf));
-			print_err(nwrite);
-			nread = getline(&line, &n, stdin);
-			print_err(nread);
+			/*nwrite = write(STDOUT_FILENO, buf, sizeof(buf));
+			print_err(nwrite, "write");
+			nread = getline(&line, &n, stdin);*/
+			if ((isatty(STDIN_FILENO)) != 1)
+				nread = getline(&line, &n, stdin);
+			else
+			{
+				nwrite = write(STDOUT_FILENO, buf, sizeof(buf));
+				print_err(nwrite, "write");
+				nread = getline(&line, &n, stdin);
+			}
+
 		}
 	}
 	free(line);
-	free(argv);
-	free(dup_str);
+	if (pid == 0)
+	{
+		free(argv);
+		free(dup_str);
+	}
 	return (0);
+}
+
+
+
+/**
+ *print_err - prints the error message.
+ *@n: return value of called function.
+ *@str: string.
+ */
+void print_err(ssize_t n, char *str)
+{
+	if (n == -1 && errno != 0)
+		perror(str);
 }

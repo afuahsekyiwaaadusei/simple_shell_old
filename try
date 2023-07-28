@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "main.h"
+#include <unistd.h>
 
 /**
  *main - main function used for testing
@@ -9,18 +10,16 @@
  */
 
 int main() {
-    char *myString = "/bin/ls -l /tmp";
-    char **argv;
-    char **result;
-    char *dup;
-    int i = 0;
-    dup = str_dup(myString);
-    argv = _argv(dup);
-    while (argv[i] != NULL)
-    {
-	    printf("argv[%d] = %s\n", i, argv[i]);
-	    i++;
-    }
-    free(argv);
+    char *line = NULL;
+    size_t n = 0;
+    ssize_t nread, nwrite;
+    char buf[] = "$ ";
+    
+    nwrite = write(STDOUT_FILENO, buf, sizeof(buf));
+    nread = getline(&line, &n, stdin);
+    if (nread == -1)
+	    perror("bug");
+    printf("nread is %ld and nwrite is %ld\n", nread, nwrite);
+    free(line);
     return 0;
 }

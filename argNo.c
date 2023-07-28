@@ -15,8 +15,6 @@ int get_arg_no(char *str)
 	char *token;
 	int i = 0;
 
-	if (str == NULL)
-		return (0);
 	new_str = str_dup(str);
 	token = strtok(new_str, " ");
 	while (token)
